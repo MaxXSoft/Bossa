@@ -13,6 +13,7 @@ Bossa currently supports only Verilator-based simulations.
 * Ubuntu.
 * JDK.
 * C++ compiler.
+* Python 3.7+.
 * Verilator.
 * Device tree compiler (for building `riscv-isa-sim`).
 
