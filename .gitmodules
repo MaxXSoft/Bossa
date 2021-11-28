@@ -13,3 +13,6 @@
 [submodule "tools/barstools"]
 	path = tools/barstools
 	url = https://github.com/ucb-bar/barstools.git
+[submodule "tools/DRAMSim2"]
+	path = tools/DRAMSim2
+	url = https://github.com/firesim/DRAMSim2.git
