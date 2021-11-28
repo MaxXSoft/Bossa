@@ -12,10 +12,11 @@ Bossa currently supports only Verilator-based simulations.
 
 * Ubuntu.
 * JDK.
-* C++ compiler.
+* C++ compiler and Make (`build-essential`).
 * Python 3.7+.
 * Verilator.
 * Device tree compiler (for building `riscv-isa-sim`).
+* Git.
 
 You can run the following command to setup prerequisites on Ubuntu:
 
@@ -25,9 +26,10 @@ sudo make setup
 
 ## Getting Started
 
-### Setting Up Prerequisites
+### Cloning and Setting Up Prerequisites
 
 ```sh
+git clone --recursive --shallow-submodules --single-branch --depth 1 https://github.com/MaxXSoft/Bossa.git
 sudo make setup
 ```
 
