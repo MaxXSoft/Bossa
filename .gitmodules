@@ -1,0 +1,3 @@
+[submodule "generators/boom"]
+	path = generators/boom
+	url = https://github.com/riscv-boom/riscv-boom.git
