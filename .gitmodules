@@ -16,3 +16,6 @@
 [submodule "tools/DRAMSim2"]
 	path = tools/DRAMSim2
 	url = https://github.com/firesim/DRAMSim2.git
+[submodule "tools/frenda"]
+	path = tools/frenda
+	url = https://github.com/MaxXSoft/Frenda.git
