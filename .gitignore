@@ -1,2 +1,21 @@
+# from chipyard
+bootrom/*
+/Makefrag.pkgs
+target
+*.jar
+*.stamp
+*.vcd
+*.swp
+*.swo
+*.log
+*#
+*~
+.idea
+tags
+.bsp/
+
+# macOS
 *.DS_Store
+
+# debugging
 debug
