@@ -19,3 +19,6 @@
 [submodule "tools/frenda"]
 	path = tools/frenda
 	url = https://github.com/MaxXSoft/Frenda.git
+[submodule "toolchains/riscv-isa-sim"]
+	path = toolchains/riscv-isa-sim
+	url = https://github.com/riscv-software-src/riscv-isa-sim.git
