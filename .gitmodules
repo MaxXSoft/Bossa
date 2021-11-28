@@ -1,3 +1,6 @@
 [submodule "generators/boom"]
 	path = generators/boom
 	url = https://github.com/riscv-boom/riscv-boom.git
+[submodule "generators/rocket-chip"]
+	path = generators/rocket-chip
+	url = https://github.com/chipsalliance/rocket-chip.git
