@@ -19,3 +19,6 @@ tags
 
 # debugging
 debug
+
+# toolchain installations
+toolchain-install
