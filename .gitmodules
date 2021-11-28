@@ -10,3 +10,6 @@
 [submodule "generators/testchipip"]
 	path = generators/testchipip
 	url = https://github.com/ucb-bar/testchipip.git
+[submodule "tools/barstools"]
+	path = tools/barstools
+	url = https://github.com/ucb-bar/barstools.git
