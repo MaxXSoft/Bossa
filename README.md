@@ -40,11 +40,11 @@ cd sims/verilator
 # build simulation for small BOOM
 make CONFIG=SmallBoomConfig -j`nproc`
 # or, enable multi-threading
-make CONFIG=SmallBoomConfig THREADS=8 -j`nproc`
+make CONFIG=SmallBoomConfig VERILATOR_THREADS=8 -j`nproc`
 # or, enable debugging with VCD waveform dump
 make CONFIG=SmallBoomConfig debug -j`nproc`
 # or, enable debugging with FST waveform dump
-make CONFIG=SmallBoomConfig FST_MODE=1 debug -j`nproc`
+make CONFIG=SmallBoomConfig VERILATOR_FST_MODE=1 debug -j`nproc`
 ```
 
 ### Bulding and Running Simulator
