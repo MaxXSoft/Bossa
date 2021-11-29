@@ -5,6 +5,7 @@
 # Parameters
 CONFIG ?= SmallBoomConfig
 FRENDA_THREADS ?= $(shell nproc)
+FRENDA_CLEAN_BUILD ?= 0
 VERILATOR_THREADS ?= 1
 VERILATOR_FST_MODE ?= 0
 TOP_MODULE ?= TestHarness
@@ -78,7 +79,7 @@ FIR_ANNO := $(BUILD_DIR)/$(CIRCUIT_NAME).anno.json
 
 $(FIR_CIRCUIT): $(SCALA_SRCS) $(BOOTROM_TARGETS)
 	mkdir -p $(dir $@)
-	$(SBT_BOSSA) "project chipyard; runMain chipyard.Generator --target-dir $(BUILD_DIR) --name $(CIRCUIT_NAME) --top-module chipyard.TestHarness --legacy-configs chipyard:SmallBoomConfig"
+	$(SBT_BOSSA) "project chipyard; runMain chipyard.Generator --target-dir $(BUILD_DIR) --name $(CIRCUIT_NAME) --top-module chipyard.$(TOP_MODULE) --legacy-configs chipyard:$(CONFIG)"
 
 $(BUILD_DIR)/bootrom.%.img: $(BOOTROM_DIR)/bootrom.%.img
 	mkdir -p $(dir $@)
@@ -89,6 +90,9 @@ $(BUILD_DIR)/bootrom.%.img: $(BOOTROM_DIR)/bootrom.%.img
 # FIRRTL circuit compilation
 ################################################################################
 
+# Flags
+FRENDA_FLAGS := $(if $(filter $(FRENDA_CLEAN_BUILD),0),,-cb)
+
 # Directories
 VERILOG_DIR := $(BUILD_DIR)/verilog
 
@@ -97,7 +101,7 @@ VERILOG_FILES := $(BUILD_DIR)/verilog_files.f
 
 $(VERILOG_FILES): $(FIR_CIRCUIT) $(FRENDA_JAR)
 	mkdir -p $(dir $@)
-	$(FRENDA) -i $(FIR_CIRCUIT) -j $(FRENDA_THREADS) -td $(VERILOG_DIR) -off $(VERILOG_FILES)
+	$(FRENDA) $(FRENDA_FLAGS) -i $(FIR_CIRCUIT) -j $(FRENDA_THREADS) -td $(VERILOG_DIR) -off $(VERILOG_FILES)
 
 
 ################################################################################
