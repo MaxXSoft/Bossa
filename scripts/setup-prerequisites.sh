@@ -13,43 +13,49 @@ function test_cmd() {
   return $ret
 }
 
+# Prints messages to `stderr`.
+function echoe() {
+  echo -e "\033[31m\033[1m$1\033[0m" 1>&2
+}
+
 # Installs the specific package.
 function install_pkg() {
-  apt-get install -y $1
+  DEBIAN_FRONTEND="noninteractive" apt-get install -y $1
 }
 
 # Setup JDK
 if ! test_cmd javac; then
-  echo "Setting up JDK..."
+  echoe "Setting up JDK..."
+  # TODO: tzdata stucked
   install_pkg default-jdk
 fi
 
 # Setup build-essential
 if ! test_cmd g++ || ! test_cmd make; then
-  echo "Setting up build-essential..."
+  echoe "Setting up build-essential..."
   install_pkg build-essential
 fi
 
 # Setup Python 3
 if ! test_cmd python3; then
-  echo "Setting up Python 3..."
+  echoe "Setting up Python 3..."
   install_pkg python3
 fi
 
 # Setup Verilator
 if ! test_cmd verilator; then
-  echo "Setting up Verilator..."
+  echoe "Setting up Verilator..."
   install_pkg verilator
 fi
 
 # Setup device tree compiler
 if ! test_cmd dtc; then
-  echo "Setting up device tree compiler..."
+  echoe "Setting up device tree compiler..."
   install_pkg device-tree-compiler
 fi
 
 # Setup Git
 if ! test_cmd git; then
-  echo "Setting up Git..."
+  echoe "Setting up Git..."
   install_pkg git
 fi
