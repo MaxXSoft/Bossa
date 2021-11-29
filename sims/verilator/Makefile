@@ -33,9 +33,9 @@ clean:
 ################################################################################
 
 # Directories
-ISA_SIM_DIR := $(TOP_DIR)/toolchains/riscv-isa-sim
+ISA_SIM_DIR := $(BOSSA_DIR)/toolchains/riscv-isa-sim
 ISA_SIM_BUILD_DIR := $(ISA_SIM_DIR)/build
-ISA_SIM_INSTALL_DIR := $(TOP_DIR)/toolchain-install/riscv-isa-sim
+ISA_SIM_INSTALL_DIR := $(BOSSA_DIR)/toolchain-install/riscv-isa-sim
 
 # Targets
 ISA_SIM_LIBFESVR := $(ISA_SIM_INSTALL_DIR)/lib/libfesvr.a
@@ -51,7 +51,7 @@ $(ISA_SIM_LIBFESVR):
 ################################################################################
 
 # Directories
-FRENDA_DIR := $(TOP_DIR)/tools/frenda
+FRENDA_DIR := $(BOSSA_DIR)/tools/frenda
 
 # Targets
 FRENDA := $(FRENDA_DIR)/utils/bin/frenda
@@ -81,6 +81,8 @@ $(FIR_CIRCUIT): $(SCALA_SRCS) $(BOOTROM_TARGETS)
 	mkdir -p $(dir $@)
 	$(SBT_BOSSA) "project chipyard; runMain chipyard.Generator --target-dir $(BUILD_DIR) --name $(CIRCUIT_NAME) --top-module chipyard.$(TOP_MODULE) --legacy-configs chipyard:$(CONFIG)"
 
+$(FIR_ANNO): $(FIR_CIRCUIT)
+
 $(BUILD_DIR)/bootrom.%.img: $(BOOTROM_DIR)/bootrom.%.img
 	mkdir -p $(dir $@)
 	cp -f $^ $@
@@ -109,9 +111,9 @@ $(VERILOG_FILES): $(FIR_CIRCUIT) $(FRENDA_JAR)
 ################################################################################
 
 # Directories
-ROCKET_RES_DIR := $(BOSSA_DIR)/rocket-chip/src/main/resources
-CHIPYARD_RES_DIR := $(BOSSA_DIR)/chipyard/src/main/resources
-TESTCHIP_RES_DIR := $(BOSSA_DIR)/testchipip/src/main/resources
+ROCKET_RES_DIR := $(BOSSA_DIR)/generators/rocket-chip/src/main/resources
+CHIPYARD_RES_DIR := $(BOSSA_DIR)/generators/chipyard/src/main/resources
+TESTCHIP_RES_DIR := $(BOSSA_DIR)/generators/testchipip/src/main/resources
 
 # Files
 SIM_FILE_REQS := \
@@ -165,17 +167,17 @@ MODEL_DEBUG_DIR := $(BUILD_DIR)/model.debug
 
 # Files
 MODEL_HEADER = $(MODEL_DIR)/V$(TOP_MODULE).h
-MODEL_DEBUG_HEADER = $(MODEL_DIR_DEBUG)/V$(TOP_MODULE).h
+MODEL_DEBUG_HEADER = $(MODEL_DEBUG_DIR)/V$(TOP_MODULE).h
 
 # Targets
 MODEL_MK := $(MODEL_DIR)/V$(TOP_MODULE).mk
 MODEL_DEBUG_MK := $(MODEL_DEBUG_DIR)/V$(TOP_MODULE).mk
 
 $(MODEL_MK): $(SIM_COMMON_FILES) $(VERILOG_FILES)
-	verilator $(VERILATOR_OPTS) -o $(SIM) -Mdir $(MODEL_DIR) -CFLAGS "-include $(MODEL_HEADER)"
+	verilator --cc --exe $(VERILATOR_OPTS) -o $(SIM) -Mdir $(MODEL_DIR) -CFLAGS "-include $(MODEL_HEADER)"
 
 $(MODEL_DEBUG_MK): $(SIM_COMMON_FILES) $(VERILOG_FILES)
-	verilator $(VERILATOR_OPTS) -o $(SIM_DEBUG) $(TRACING_OPTS) -Mdir $(MODEL_DEBUG_DIR) -CFLAGS "-include $(MODEL_DEBUG_HEADER)"
+	verilator --cc --exe $(VERILATOR_OPTS) -o $(SIM_DEBUG) $(TRACING_OPTS) -Mdir $(MODEL_DEBUG_DIR) -CFLAGS "-include $(MODEL_DEBUG_HEADER)"
 
 
 ################################################################################
@@ -196,8 +198,8 @@ $(DRAMSIM_LIB):
 # Simulator targets
 ################################################################################
 
-$(SIM): $(MODEL_MK) $(DRAMSIM_LIB)
+$(SIM): $(MODEL_MK) $(DRAMSIM_LIB) $(ISA_SIM_LIBFESVR)
 	$(MAKE) VM_PARALLEL_BUILDS=1 OPT_FAST="-O3" -C $(MODEL_DIR) -f V$(TOP_MODULE).mk
 
-$(SIM_DEBUG): $(MODEL_DEBUG_MK) $(DRAMSIM_LIB)
+$(SIM_DEBUG): $(MODEL_DEBUG_MK) $(DRAMSIM_LIB) $(ISA_SIM_LIBFESVR)
 	$(MAKE) VM_PARALLEL_BUILDS=1 OPT_FAST="-O3" -C $(MODEL_DEBUG_DIR) -f V$(TOP_MODULE).mk
