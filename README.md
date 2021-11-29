@@ -10,8 +10,21 @@ Bossa currently supports only Verilator-based simulations.
 
 ## Prerequisites
 
-* Ubuntu.
-* JDK.
+### Using Bossa's Docker Image
+
+Just run:
+
+```sh
+docker pull maxxing/bossa-image
+docker run -it maxxing/bossa-image bash
+```
+
+See [docker/README.md](docker/README.md) for more details.
+
+### Using Bossa on Your Local Machine
+
+* Ubuntu (20.04+ recommended).
+* JDK 11+.
 * C++ compiler and Make (`build-essential`).
 * Python 3.7+.
 * Verilator.
