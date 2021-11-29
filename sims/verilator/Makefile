@@ -29,7 +29,7 @@ clean:
 
 
 ################################################################################
-# riscv-isa-sim
+# riscv-isa-sim (fesvr)
 ################################################################################
 
 # Directories
@@ -44,6 +44,7 @@ $(ISA_SIM_LIBFESVR):
 	mkdir -p $(ISA_SIM_BUILD_DIR)
 	cd $(ISA_SIM_BUILD_DIR) && $(ISA_SIM_DIR)/configure --prefix=$(ISA_SIM_INSTALL_DIR)
 	$(MAKE) -C $(ISA_SIM_BUILD_DIR) install
+	rm -rf $(ISA_SIM_BUILD_DIR)
 
 
 ################################################################################
