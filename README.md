@@ -26,11 +26,11 @@ sudo scripts/setup-prerequisites.sh
 
 ## Getting Started
 
-### Cloning and Setting Up Prerequisites
+### Setting Up Prerequisites and Initializing
 
 ```sh
-git clone --recursive --shallow-submodules --single-branch --depth 1 https://github.com/MaxXSoft/Bossa.git
 sudo scripts/setup-prerequisites.sh
+git submodule update --init --recursive --depth=1
 ```
 
 ### Building for Simulation
