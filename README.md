@@ -21,7 +21,7 @@ Bossa currently supports only Verilator-based simulations.
 You can run the following command to setup prerequisites on Ubuntu:
 
 ```sh
-sudo make setup
+sudo scripts/setup-prerequisites.sh
 ```
 
 ## Getting Started
@@ -30,7 +30,7 @@ sudo make setup
 
 ```sh
 git clone --recursive --shallow-submodules --single-branch --depth 1 https://github.com/MaxXSoft/Bossa.git
-sudo make setup
+sudo scripts/setup-prerequisites.sh
 ```
 
 ### Building for Simulation
@@ -54,3 +54,13 @@ cd sims/verilator
 make CONFIG=SmallBoomConfig -j`nproc`
 ./simulator-SmallBoomConfig path/to/riscv/program
 ```
+
+## Make Options Supported during Simulator Build
+
+* `CONFIG`: the configuration class to give the parameters for the project (default `SmallBoomConfig`).
+* `FRENDA_THREADS`: how many threads the incremental FIRRTL compiler will use (default `nproc`).
+* `FRENDA_CLEAN_BUILD`: perform clean FIRRTL build instead of incremental FIRRTL build.
+* `VERILATOR_THREADS`: how many threads the simulator will use (default 1).
+* `VERILATOR_FST_MODE`: enable FST waveform instead of VCD. use with debug build.
+* `TOP_MODULE`: the top level module of the project (default `TestHarness`).
+* `VERILATOR_OPT_FLAGS`: Verilator optimization flags (default `-O2 --x-assign fast --x-initial fast --output-split 30000 --output-split-cfuncs 30000`).
