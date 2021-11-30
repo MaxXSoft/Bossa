@@ -77,3 +77,7 @@ make CONFIG=SmallBoomConfig -j`nproc`
 * `VERILATOR_FST_MODE`: enable FST waveform instead of VCD. use with debug build.
 * `TOP_MODULE`: the top level module of the project (default `TestHarness`).
 * `VERILATOR_OPT_FLAGS`: Verilator optimization flags (default `-O2 --x-assign fast --x-initial fast --output-split 30000 --output-split-cfuncs 30000`).
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
