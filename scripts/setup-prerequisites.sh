@@ -20,7 +20,7 @@ function echoe() {
 
 # Installs the specific package.
 function install_pkg() {
-  DEBIAN_FRONTEND="noninteractive" apt-get install -y $1
+  DEBIAN_FRONTEND="noninteractive" apt-get install -y $@
 }
 
 # Setup JDK
@@ -42,12 +42,6 @@ if ! test_cmd python3; then
   install_pkg python3
 fi
 
-# Setup Verilator
-if ! test_cmd verilator; then
-  echoe "Setting up Verilator..."
-  install_pkg verilator
-fi
-
 # Setup device tree compiler
 if ! test_cmd dtc; then
   echoe "Setting up device tree compiler..."
@@ -58,4 +52,13 @@ fi
 if ! test_cmd git; then
   echoe "Setting up Git..."
   install_pkg git
+fi
+
+# Setup Verilator
+if ! test_cmd verilator; then
+  echoe "Setting up Verilator..."
+  # Build from source
+  install_pkg autoconf flex bison
+  git clone --single-branch --depth 1 http://git.veripool.org/git/verilator
+  cd verilator && autoconf && ./configure && make install -j`nproc`
 fi
