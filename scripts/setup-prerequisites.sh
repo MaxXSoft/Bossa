@@ -58,7 +58,7 @@ fi
 if ! test_cmd verilator; then
   echoe "Setting up Verilator..."
   # Build from source
-  install_pkg autoconf flex bison
+  install_pkg autoconf flex bison zlib1g-dev
   git clone --single-branch --depth 1 http://git.veripool.org/git/verilator
-  cd verilator && autoconf && ./configure && make install -j`nproc`
+  cd verilator && autoconf && ./configure && make -j`nproc` && make install && rm -rf ../verilator
 fi
